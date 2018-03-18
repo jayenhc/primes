@@ -55,6 +55,18 @@ public class ITPrimesControllerTest {
         assertTrue(response.getBody().contains(expected));
     }
 
+    @Test
+    public void testInvalidPrimeNumber() {
+        HttpEntity<Primes> entity = new HttpEntity<Primes>(null, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/primes/99999999"),
+                HttpMethod.GET, entity, String.class);
+
+        String expected = "please enter valid int number between 0 to 99999";
+        assertEquals(expected,response.getBody());
+    }
+
 
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri;
